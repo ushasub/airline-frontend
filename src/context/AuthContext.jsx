@@ -20,7 +20,7 @@ export const AuthProvider = ({ children }) => {
   }
 
   try {
-    const res = await fetch("http://localhost:4000/api/users/login", {
+    fetch(`${import.meta.env.VITE_API_URL}/api/users/login`, {
       method: "POST",
       headers: {
         "Content-Type": "application/json",
