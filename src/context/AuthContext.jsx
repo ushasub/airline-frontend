@@ -14,6 +14,23 @@ export const AuthProvider = ({ children }) => {
   }, []);
 
   const login = async (email, password) => {
+  const res = await fetch(`${import.meta.env.VITE_API_URL}/api/users/login`, {
+    method: "POST",
+    headers: { "Content-Type": "application/json" },
+    body: JSON.stringify({ email, password }),
+  });
+
+  const data = await res.json();
+
+  if (!res.ok) {
+    throw new Error(data.message || `Login failed with status ${res.status}`);
+  }
+
+  setUser(data);
+  localStorage.setItem("userInfo", JSON.stringify(data));
+};
+
+  /*const login = async (email, password) => {
   console.log("Login function called with:", email, password);
 
   if (!email || !password) {
@@ -42,7 +59,7 @@ export const AuthProvider = ({ children }) => {
     console.error("Login failed:", err);
     throw err;
   }
-};
+};*/
 
   const logout = () => {
     setToken("");
