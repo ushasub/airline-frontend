@@ -14,13 +14,15 @@ export const AuthProvider = ({ children }) => {
   }, []);
 
   const login = async (email, password) => {
+  console.log("Login function called with:", email, password);
+
   if (!email || !password) {
     console.warn("Login aborted due to missing input");
-    return null;
+    return;
   }
 
   try {
-    fetch(`${import.meta.env.VITE_API_URL}/api/users/login`, {
+    const res = await fetch(`${import.meta.env.VITE_API_URL}/api/users/login`, {
       method: "POST",
       headers: {
         "Content-Type": "application/json",
@@ -36,7 +38,6 @@ export const AuthProvider = ({ children }) => {
 
     setUser(data);
     localStorage.setItem("userInfo", JSON.stringify(data));
-    return data;
   } catch (err) {
     console.error("Login failed:", err);
     throw err;
